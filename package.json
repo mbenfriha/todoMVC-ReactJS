@@ -1,0 +1,26 @@
+{
+  "name": "todomvc-reactjs",
+  "version": "1.0.0",
+  "description": "todo on reactjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbenfriha/todoMVC-ReactJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mbenfriha/todoMVC-ReactJS/issues"
+  },
+  "homepage": "https://github.com/mbenfriha/todoMVC-ReactJS#readme",
+  "devDependencies": {
+    "eslint": "^3.7.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0"
+  }
+}
