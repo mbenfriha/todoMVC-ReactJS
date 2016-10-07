@@ -32,19 +32,31 @@ const TodoHeader = React.createClass({
 
 const TodoFooter = React.createClass({
 
+    completedClicked() {
+        this.props.completedClicked();
+    },
+
+    activeClicked() {
+        this.props.activeClicked();
+    },
+
+    allClicked(){
+        this.props.allClicked();
+    },
+
     render() {
         return (
             <footer className="footer">
                 <span className="todo-count"><strong>{this.props.left}</strong> item left</span>
                 <ul className="filters">
                     <li>
-                        <a className="selected" href="#/">All</a>
+                        <a onClick={this.allClicked}  href="#/">All</a>
                     </li>
                     <li>
-                        <a href="#/active">Active</a>
+                        <a onClick={this.activeClicked} href="#/active">Active</a>
                     </li>
                     <li>
-                        <a href="#/completed">Completed</a>
+                        <a onClick={this.completedClicked} href="#/completed">Completed</a>
                     </li>
                 </ul>
                 <button className="clear-completed">Clear completed</button>
@@ -86,6 +98,7 @@ const TodoItem = React.createClass({
 const TodoList = React.createClass({
 
 
+
     deleteItem(key){
         console.log(key);
         this.state.todos.splice(key, 1);
@@ -100,15 +113,43 @@ const TodoList = React.createClass({
     addItem(item){
         this.state.todos.push({name : item, completed : false});
         this.setState({todos : this.state.todos});
-
     },
+
+    completedClicked(){
+        this.setState({filter: 'completed'});
+    },
+    activeClicked(){
+        this.setState({filter: 'active'});
+    },
+
+    allClicked(){
+        this.setState({filter: 'all'})
+    },
+
+    getFilteredTodos(){
+
+        let { todos } = this.state;
+
+        switch(this.state.filter){
+            case 'all':
+                return todos;
+            case 'active':
+                return todos.filter(t => !t.completed);
+            case 'completed':
+                return todos.filter(t => t.completed);
+            default:
+                throw new Error('Invalid Filter');
+        }
+    },
+
 
     getInitialState() {
         return {
             todos: [
                 { name: 'finir ce tuto', completed: false },
-                { name: 'finir uno', completed: true },
+                { name: 'finir uno', completed: true }
             ],
+            filter: 'all'
         };
     },
 
@@ -118,7 +159,7 @@ const TodoList = React.createClass({
 
         let that = this;
 
-        const rows = this.state.todos.map((todo, i) => {
+        const rows = that.getFilteredTodos().map((todo, i) => {
             return <TodoItem
                 complete={that.completeItem}
                 delete={that.deleteItem} todo={todo} keyItem={i} key={i}
@@ -135,7 +176,7 @@ const TodoList = React.createClass({
                         {rows}
                     </ul>
                 </section>
-                <TodoFooter left={left} />
+                <TodoFooter left={left} allClicked={that.allClicked} completedClicked={that.completedClicked} activeClicked={that.activeClicked} />
             </div>
         );
     },
